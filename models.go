@@ -2,9 +2,11 @@ package pawapaygo
 
 import "time"
 
+const requestDepositRoute = "/deposits"
+
 type ConfigOptions struct {
-	BaseUrl string
-	ApiKey  string
+	InstanceURL string
+	ApiToken    string
 }
 
 type DepositCallbackRequestBody struct {
@@ -92,33 +94,38 @@ type DepositCallbackRequestBody struct {
 }
 
 // Request Deposit request body
-type RequestDepositBody struct {
-	DepositID            string `json:"depositId"`
-	Amount               string `json:"amount"`
-	Currency             string `json:"currency"`
-	Country              string `json:"country"`
-	Correspondent        string `json:"correspondent"`
-	CustomerTimestamp    string `json:"customerTimestamp"`
-	StatementDescription string `json:"statementDescription"`
-	PreAuthorisationCode string `json:"preAuthorisationCode"`
-
-	Payer struct {
-		Type    string `json:"type"`
-		Address struct {
-			Value string `json:"value"`
-		} `json:"address"`
-	} `json:"payer"`
-
-	Metadata []struct {
-		FieldName  string `json:"fieldName"`
-		FieldValue string `json:"fieldValue"`
-		IsPII      bool   `json:"isPII,omitempty"`
-	} `json:"metadata"`
+type InitiateDepositRequestBody struct {
+	DepositID            string         `json:"depositId"`
+	Payer                Payer          `json:"payer"`
+	PreAuthorisationCode string         `json:"preAuthorisationCode"`
+	ClientReferenceID    string         `json:"clientReferenceId"`
+	CustomerMessage      string         `json:"customerMessage"`
+	Amount               string         `json:"amount"`
+	Currency             string         `json:"currency"`
+	Metadata             []MetadataItem `json:"metadata"`
 }
+
+type Payer struct {
+	Type           string         `json:"type"`
+	AccountDetails AccountDetails `json:"accountDetails"`
+}
+
+type AccountDetails struct {
+	PhoneNumber string `json:"phoneNumber"`
+	Provider    string `json:"provider"`
+}
+
+type MetadataItem map[string]any
 
 // Request Deposit response object
 type RequestDepositResponse struct {
-	DepositID string `json:"depositId"`
-	Status    string `json:"status"`
-	Created   string `json:"created"`
+	DepositID     string        `json:"depositId"`
+	Status        string        `json:"status"`
+	Created       string        `json:"created"`
+	FailureReason FailureReason `json:"failureReason"`
+}
+
+type FailureReason struct {
+	FailureCode    string `json:"failureCode"`
+	FailureMessage string `json:"failureMessage"`
 }
