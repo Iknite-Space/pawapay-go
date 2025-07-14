@@ -43,7 +43,6 @@ func (a *Client) InitiateDeposit(payload *InitiateDepositRequestBody) (*RequestD
 	if err != nil {
 		return nil, err
 	}
-	req.Close=true
 
 	// Add required http headers
 	req.Header.Set("Authorization", "Bearer "+ a.authToken)

@@ -19,7 +19,7 @@ func main() {
 	reqBody := &pawapay.InitiateDepositRequestBody{
 		DepositID:            uuid.New().String(),
 		Amount:               "100",
-		Currency:             "XAF",
+		Currency:             pawapay.CURRENCY_CODE_CAMEROON,
 		PreAuthorisationCode: "54366",
 		ClientReferenceID:    "REF-45343",
 		CustomerMessage:      "Testing the api",

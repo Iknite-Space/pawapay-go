@@ -1,9 +1,6 @@
 package pawapaygo
 
 import "time"
-
-const requestDepositRoute = "/deposits"
-
 type ConfigOptions struct {
 	InstanceURL string
 	ApiToken    string
