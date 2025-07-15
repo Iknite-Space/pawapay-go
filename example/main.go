@@ -27,7 +27,7 @@ func main() {
 			Type: "MMO",
 			AccountDetails: pawapay.AccountDetails{
 				PhoneNumber: "237653456019",
-				Provider:    "MTN_MOMO_CMR",
+				Provider:    pawapay.MTN_MOMO_CMR,
 			},
 		},
 	}

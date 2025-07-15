@@ -1,6 +1,12 @@
 package pawapaygo
 
-import "time"
+import (
+	"bytes"
+	"encoding/json"
+	"io"
+	"time"
+)
+
 type ConfigOptions struct {
 	InstanceURL string
 	ApiToken    string
@@ -102,6 +108,14 @@ type InitiateDepositRequestBody struct {
 	Metadata             []MetadataItem `json:"metadata"`
 }
 
+func (i *InitiateDepositRequestBody) ToBytes() (*bytes.Reader, error) {
+	b , err := json.Marshal(i)
+	if err != nil {
+		return nil, err
+	}
+	return bytes.NewReader(b), nil
+}
+
 type Payer struct {
 	Type           string         `json:"type"`
 	AccountDetails AccountDetails `json:"accountDetails"`
@@ -120,6 +134,17 @@ type RequestDepositResponse struct {
 	Status        string        `json:"status"`
 	Created       string        `json:"created"`
 	FailureReason FailureReason `json:"failureReason"`
+}
+
+func (r *RequestDepositResponse) DecodeBytes(b io.Reader) error{
+		resBytes,err := io.ReadAll(b)
+	if err!=nil{
+		return err
+	}
+		if err := json.Unmarshal(resBytes, r); err!=nil{
+		return err
+	}
+	return nil
 }
 
 type FailureReason struct {
