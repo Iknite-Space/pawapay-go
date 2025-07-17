@@ -151,3 +151,26 @@ type FailureReason struct {
 	FailureCode    string `json:"failureCode"`
 	FailureMessage string `json:"failureMessage"`
 }
+
+type SignatureBaseParams struct {
+	DirivedComponents SignatureBaseDirivedComponents
+	Headers SignatureBaseHeaders
+	Metadata SignatureBaseMetadata
+}
+
+type SignatureBaseDirivedComponents struct {
+		Method string
+		Authority string
+		Path string
+	}
+	type SignatureBaseHeaders struct{
+		SignatureDate string
+		ContentDigest string
+		ContentType string
+	}
+	type SignatureBaseMetadata struct {
+		Alg string
+		KeyId string
+		Created int64
+		Expires int64
+	}
