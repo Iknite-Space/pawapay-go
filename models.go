@@ -96,6 +96,14 @@ type DepositCallbackRequestBody struct {
 	} `json:"metadata"`
 }
 
+func (i *DepositCallbackRequestBody) ToBytes() (*bytes.Reader, error) {
+	b , err := json.Marshal(i)
+	if err != nil {
+		return nil, err
+	}
+	return bytes.NewReader(b), nil
+}
+
 // Request Deposit request body
 type InitiateDepositRequestBody struct {
 	DepositID            string         `json:"depositId"`
